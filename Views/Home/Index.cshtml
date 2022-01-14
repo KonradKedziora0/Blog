@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="text-center">
+        <button class="btn btn-dark filter-button" data-filter="all">All</button>
+
+        @foreach (var obj in Model.Categories)
+        {
+            <button class="btn btn-outline-secondary filter-button" data-filter="@obj.Name.Replace(' ', '_')">
+                @obj.Name
+            </button>
+        }
+        <div class="row">
+            @foreach (var prod in Model.Articles)
+            {
+                <partial name="_ArticleWindow" model="prod" />
+                //display all products
+            }
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".filter-button").click(function () {
+                var value = $(this).attr('data-filter');
+                if (value == "all") {
+                    $('.filter').show('3000');
+                }
+                else {
+                    $(".filter").not('.' + value).css('display', 'none');
+                    $('.filter').filter('.' + value).css('display', 'block');
+                }
+            });
+        });
+
+        $(document).on('click', 'button', function () {
+            $(this).addClass('active').siblings().removeClass('active')
+        })
+
+
+
+    </script>
+}
